@@ -11,7 +11,6 @@ public class Zombie : Enemy {
 	private AudioSource audioSource;
 	private Animator anim;
 	private Vector3 trackingObject;
-	private bool caughtPlayer = false;
 
 	void Awake(){
 		anim = GetComponent<Animator>();
@@ -46,7 +45,7 @@ public class Zombie : Enemy {
 			gameObject.transform.LookAt(trackingObject);
 
 			// Run at target
-			Run ();
+			if(!caughtPlayer) Run ();
 
 		// If not attacking set state to idle
 		} else{
@@ -81,15 +80,23 @@ public class Zombie : Enemy {
 		attacking = true;
 	}
 
-	void CatchPlayer(){
-		audioSource.clip = playerCatchAudio;
-		audioSource.Play();
-		caughtPlayer = true;
+	public override bool CatchPlayer(){
+		if(!caughtPlayer){
+			audioSource.clip = playerCatchAudio;
+			audioSource.Play();
+			caughtPlayer = true;
+			return true;
+		}
+		else {
+			return false;
+		}
 	}
 
 	void OnCollisionEnter(Collision other){
 		if(other.transform.tag == "Player"){
-			if(!caughtPlayer) CatchPlayer();
+			if(!caughtPlayer) {
+				CatchPlayer();
+			}
 		}
 	}
 }
