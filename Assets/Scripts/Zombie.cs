@@ -70,7 +70,6 @@ public class Zombie : Enemy {
 		transform.Translate(Vector3.forward * Time.deltaTime * runningSpeed);
 		if(!caughtPlayer){
 			if(audioSource.clip != runningAudio){
-				Debug.Log("Running audio");
 				audioSource.clip = runningAudio;
 				audioSource.Play();
 			}
