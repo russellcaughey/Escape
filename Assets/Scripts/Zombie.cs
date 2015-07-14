@@ -9,12 +9,14 @@ public class Zombie : Enemy {
 	public AudioClip playerCatchAudio;
 
 	private AudioSource audioSource;
+	private AudioSource sceneSFX;
 	private Animator anim;
 	private Vector3 trackingObject;
 
 	void Awake(){
 		anim = GetComponent<Animator>();
 		audioSource = GetComponent<AudioSource>();
+		sceneSFX = GameObject.FindGameObjectWithTag("SFXController").GetComponent<AudioSource>();
 	}
 
 	void Update () {
@@ -82,8 +84,8 @@ public class Zombie : Enemy {
 
 	public override bool CatchPlayer(){
 		if(!caughtPlayer){
-			audioSource.clip = playerCatchAudio;
-			audioSource.Play();
+			sceneSFX.clip = playerCatchAudio;
+			sceneSFX.Play();
 			caughtPlayer = true;
 			return true;
 		}
